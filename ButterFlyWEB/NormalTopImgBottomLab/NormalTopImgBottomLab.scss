@@ -1,0 +1,10 @@
+////////////////////////////////////////变量定义////////////////////////////////////////
+$defaultColor : #f7f7f7;
+$themeColor : #409BFC;
+
+
+.NormalTopImgBottomLab {background-color: $defaultColor; margin: 10px; width: 100px;height: 100px;}
+
+.NormalTopImgBottomLab-theme {background-color: $themeColor;}
+
+.NormalTopImgBottomLab-warning {background-color: red;}

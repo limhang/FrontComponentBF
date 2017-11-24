@@ -1,0 +1,26 @@
+$selector: '.fade';
+
+$father-selector: '.container';
+
+//设置淡入淡出效果
+#{$selector} {
+  transition-property: opacity;
+
+  &-enter {
+    opacity: .3;
+
+    &-active {
+      opacity: 1;
+    }
+  }
+
+  &-leave {
+    opacity: 1;
+
+    &-active {
+      opacity: .3;
+    }
+  }
+}
+
+//设置遮罩层上view的外观
