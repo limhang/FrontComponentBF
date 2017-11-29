@@ -1,0 +1,51 @@
+@import "../variables";
+$selector: '.notification';
+$selector-content: '#{$selector}-content';
+
+#{$selector} {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  //我们设定的元素出来的时候
+  &-enter {
+    #{$selector-content} {
+      transform: translate3d(0, -100%, 0);
+    }
+    &-active {
+      #{$selector-content} {
+        transform: translate3d(0, 0%, 0);
+      }
+    }
+  }
+
+  //我们设定的元素消失的时候
+  &-leave {
+    #{$selector-content} {
+      transform: translate3d(0, 0%, 0);
+    }
+    &-active {
+      #{$selector-content} {
+        transform: translate3d(0, -100%, 0);
+      }
+    }
+  }
+}
+
+#{$selector-content} {
+  position: absolute;
+  z-index: $z-index-mask;
+  left:0;
+  top: 0;
+  width: 100vw;
+  font-size: 30px;
+  color: black;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  background-color: darkred;
+  transition-timing-function: ease;
+  transition-duration :400ms;
+  transition-property: transform;
+  //overflow: auto;
+}

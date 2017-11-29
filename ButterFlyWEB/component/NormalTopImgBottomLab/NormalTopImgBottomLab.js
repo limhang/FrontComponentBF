@@ -22,10 +22,17 @@
 import React from 'react';
 import {classNames} from '../utils';
 import './NormalTopImgBottomLab.scss';
+import PropTypes from 'prop-types';
+
 export function NormalTopImgBottomLab(props) {
 	let {clickCallBack,name,type } = props;
 	let className = classNames('NormalTopImgBottomLab',{
 		[`NormalTopImgBottomLab-${type}`] : true
 	});
 	return <h1 className={className} onClick={clickCallBack}>{name}</h1>;
+}
+
+NormalTopImgBottomLab.propTypes = {
+	name: PropTypes.string,
+	theme: PropTypes.oneOf(['warning','theme'])
 }

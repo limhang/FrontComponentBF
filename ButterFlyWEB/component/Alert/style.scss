@@ -1,0 +1,75 @@
+@import "../variables";
+$selector: '.alert';
+
+$alert-height: '150px';
+
+#{$selector} {
+  position: fixed;
+  left:0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $mask-bg;
+
+  //核心展示图层
+  &-core {
+    position: absolute;
+    //z-index: $z-index-mask;
+    left: 50%;
+    top: 50%;
+    //left: 100px;
+    //top: 100px;
+    width: 300px;
+    height: $alert-height;
+    background-color: #f7f7f7;
+    transform: translate3d(-50%,-50%,0);
+    border-radius: 10px;
+    //标题展示部分
+    &-title {
+      text-align: center;
+      font-size: 28px;
+      line-height: 28px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+    //内容展示部分
+    &-content {
+      margin-bottom: 10px;
+      font-size: 24px;
+      line-height: 24px;
+      text-align: center;
+    }
+    //横向分割线
+    &-line {
+      background-color: black;
+      height: 1px;
+      width: 100%;
+    }
+    //2个按钮的部分
+    &-control {
+      height: 50px;
+
+      //取消按钮
+      &-cancle {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 50%;
+        height: 100%;
+        border-right: 1px solid black;
+        text-align: center;
+        line-height: 50px;
+        font-size: 18px;
+      }
+      //确认按钮
+      &-comfirm {
+        display: inline-block;
+        width: 50%;
+        height: 100%;
+        text-align: center;
+        line-height: 50px;
+        font-size: 18px;
+      }
+    }
+
+  }
+}
