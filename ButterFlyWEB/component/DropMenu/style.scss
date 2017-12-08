@@ -29,6 +29,8 @@ $selector-content: '#{$selector}-content';
   &-item {
     border-bottom: 1px solid black;
     background-color: antiquewhite;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
 

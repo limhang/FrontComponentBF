@@ -29,16 +29,22 @@ export default class DropMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
-      showItemcontent: '分类'
-    };
+        show: false,
+        showItemcontent: '分 类',
+        style: {paddingLeft: '5px', paddingRight: '5px'}
+    }
     this.dropMenuControl = this.dropMenuControl.bind(this);
     this.clickItem = this.clickItem.bind(this);
   }
 
-  //控制dropmenu显示和隐藏
+//控制dropmenu显示和隐藏
   dropMenuControl() {
     this.setState({show: !this.state.show});
+    if (this.state.show) {
+        setTimeout(()=>{this.setState({style:{paddingLeft: '5px',paddingRight: '5px'}})},duration);
+    } else {
+        this.setState({style:{}})
+    }
   }
 
   //点击每个item事件
@@ -51,7 +57,7 @@ export default class DropMenu extends React.Component {
     let {dataSource} = this.props;
     let style = {'transitionDuration': `${duration}ms`};
     return (
-      <div className="dropmenu" onClick={this.dropMenuControl}>{this.state.showItemcontent}
+      <div className="dropmenu" style={this.state.style} onClick={this.dropMenuControl}>{this.state.showItemcontent}
         <CSSTransitionGroup
           transitionName={'dropmenu-content'}
           transitionEnterTimeout={duration}
