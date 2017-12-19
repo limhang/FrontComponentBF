@@ -14,19 +14,22 @@
  */
 
 #import <UIKit/UIKit.h>
-
+typedef void(^maskDisappearBlock)();
 @interface NormalMaskTopShow : UIView
 
 //////////////////////////////////====初始化====//////////////////////////////////
 - (instancetype)initWithFrame:(CGRect)frame contentViewClass:(Class)class;
 //////////////////////////////////====属性配置====//////////////////////////////////
-
+/**容器中的内容**/
+@property (nonatomic, strong) UIView *BFcontentView;
 
 //////////////////////////////////====方法配置====//////////////////////////////////
 /**显示出content**/
 - (void)contentViewAppear;
 /**隐藏起content**/
 - (void)contentViewdisapperar;
+/**点击容器遮罩层，容器消失block**/
+@property (nonatomic, copy) maskDisappearBlock disappearBlock;
 
 @end
 

@@ -12,8 +12,6 @@ static const CGFloat backgroundAlpha = 0.3;
 static const CGFloat animateAppearTime = 0.3;
 static const CGFloat animateDisappearTime = 0.1;
 @interface NormalMaskTopShow()
-/**放置item的容器,contentView**/
-@property (nonatomic, strong) UIView *BFcontentView;
 /**item高度**/
 @property (nonatomic, assign) CGFloat itemHeight;
 /**locationY**/
@@ -33,8 +31,14 @@ static const CGFloat animateDisappearTime = 0.1;
         self.backgroundColor = [[UIColor sam_colorWithHex:@"101010"] colorWithAlphaComponent:backgroundAlpha]; //背景色
         //核心ui部分设置
         self.BFcontentView = [[class alloc]initWithFrame:CGRectMake(0, -self.itemHeight, self.itemWidth, self.itemHeight)];
-
         [self addSubview:self.BFcontentView];
+
+        //点击自身销退视图
+        UIView *maskDisappearView = [[UIView alloc]initWithFrame:CGRectMake(0, self.itemHeight, self.itemWidth, [UIScreen mainScreen].bounds.size.height - self.locationY)];
+        maskDisappearView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didSelectedMaskDisappear)];
+        [maskDisappearView addGestureRecognizer:tap];
+        [self addSubview:maskDisappearView];
     }
     return self;
 }
@@ -60,7 +64,11 @@ static const CGFloat animateDisappearTime = 0.1;
     }];
 }
 
-
-
+- (void)didSelectedMaskDisappear {
+    [self contentViewdisapperar];
+    if (self.disappearBlock) {
+        self.disappearBlock();
+    }
+}
 
 @end
