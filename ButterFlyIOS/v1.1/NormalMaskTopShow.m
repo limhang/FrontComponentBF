@@ -47,9 +47,14 @@ static const CGFloat animateDisappearTime = 0.1;
 #pragma mark - event handle
 - (void)contentViewAppear {
     self.frame = CGRectMake(0, self.locationY, self.itemWidth, [UIScreen mainScreen].bounds.size.height);
+    self.BFcontentView.frame = CGRectMake(0, 0, self.itemWidth, 0);
+    self.BFcontentView.subviews[0].frame = CGRectMake(0, 0, self.itemWidth, 0);
+
     [UIView animateWithDuration:animateAppearTime animations:^{
         //动画效果做contentView的frame
         self.BFcontentView.frame = CGRectMake(0, 0, self.itemWidth, self.itemHeight);
+        self.BFcontentView.subviews[0].frame = CGRectMake(0, 0, self.itemWidth, self.itemHeight);
+
     } completion:^(BOOL finished) {
         
     }];
@@ -58,7 +63,8 @@ static const CGFloat animateDisappearTime = 0.1;
 - (void)contentViewdisapperar {
     [UIView animateWithDuration:animateDisappearTime animations:^{
         //动画效果做contentView的frame
-        self.BFcontentView.frame = CGRectMake(0, -self.itemHeight, self.itemWidth, self.itemHeight);
+        self.BFcontentView.frame = CGRectMake(0, 0, self.itemWidth, 0);
+        self.BFcontentView.subviews[0].frame = CGRectMake(0, 0, self.itemWidth, 0);
     } completion:^(BOOL finished) {
         self.frame = CGRectMake(0, -[UIScreen mainScreen].bounds.size.height, self.itemWidth, [UIScreen mainScreen].bounds.size.height);
     }];

@@ -27,6 +27,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         //初始化属性值
+        self.contentViewArray = [NSMutableArray new];
         self.collectionViewHeight = frame.size.height;
         self.collectionViewY = frame.origin.y;
         self.collectionViewClassName = contentClassNameArray;
@@ -49,8 +50,8 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    //传递进来的cell，必须继承自uicollectionViewCell
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[NSString stringWithFormat:@"reused%d",indexPath.row] forIndexPath:indexPath];
+    //这里没有做cell的复用，这个是和该组件的定位有关
+    UICollectionViewCell *cell = self.contentViewArray[indexPath.row];
     return cell;
 }
 
@@ -80,6 +81,8 @@
         _mainCollectionView.backgroundColor = [UIColor whiteColor];
         for (NSInteger i = 0; i < self.collectionViewClassName.count; i++) {
             [_mainCollectionView registerClass:self.collectionViewClassName[i] forCellWithReuseIdentifier:[NSString stringWithFormat:@"reused%d",i]];
+            //提前取出来，方便传给外界使用
+            [self.contentViewArray addObject:[_mainCollectionView dequeueReusableCellWithReuseIdentifier:[NSString stringWithFormat:@"reused%d",i] forIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
         }
     }
     return _mainCollectionView;

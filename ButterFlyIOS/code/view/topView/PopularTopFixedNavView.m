@@ -3,6 +3,7 @@
 */
 
 #import "PopularTopFixedNavView.h"
+#import <SAMCategories.h>
 #define SCREENWW  ([UIScreen mainScreen].bounds.size.width)
 static const CGFloat lineHeight = 2;
 static const CGFloat animateTime = 0.3;
@@ -31,14 +32,18 @@ static const CGFloat animateTime = 0.3;
 
 @implementation PopularTopFixedNavView
 
-- (instancetype)initWithDataArray:(NSArray *)dataArray withFrame:(CGRect)frame {
+- (instancetype)initWithDataArray:(NSArray *)dataArray withFrame:(CGRect)frame withFixedBottomLineWidth:(CGFloat)bottomLineWidth{
     self = [super initWithFrame:frame];
     if (self) {
         //构建基本的ui
         self.dataItems = dataArray;
         self.itemNum = self.dataItems.count;
-        self.LabWidth = SCREENWW / self.itemNum;
+        self.LabWidth = self.frame.size.width / self.itemNum;
         self.LabHeight = self.frame.size.height;
+        if (bottomLineWidth < 1) {
+            bottomLineWidth = self.LabWidth;
+        }
+        self.fixedWidthForBottomLine = bottomLineWidth;
         self.firstItemHightlight = YES;
         [self addSubview:self.mainCollectionView];
         [self addSubview:self.lineView];
@@ -62,30 +67,30 @@ static const CGFloat animateTime = 0.3;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     DependencyItemCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"dependencyCC" forIndexPath:indexPath];
     if (self.firstItemHightlight && indexPath.row == 0) {
-        cell.itemWordLabel.textColor = [UIColor colorWithHex:self.defaultColor ? self.defaultColor : @"000000"];
+        cell.itemWordLabel.textColor = [UIColor sam_colorWithHex:self.defaultColor ? self.defaultColor : @"000000"];
         self.buffCell = cell;
-        self.lineView.backgroundColor = [UIColor colorWithHex:self.selectedColor ? self.selectedColor : @"000000"];
+        self.lineView.backgroundColor = [UIColor sam_colorWithHex:self.selectedColor ? self.selectedColor : @"000000"];
     }
     cell.itemWordLabel.font = [UIFont systemFontOfSize:self.fontSize ? self.fontSize : 14];
-    cell.itemWordLabel.textColor = [UIColor colorWithHex:self.defaultColor ? self.defaultColor : @"000000"];
+    cell.itemWordLabel.textColor = [UIColor sam_colorWithHex:self.defaultColor ? self.defaultColor : @"000000"];
     cell.itemWordLabel.text = self.dataItems[indexPath.row];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     //首先清空之前选中的cell，然后高亮主题色
-    self.buffCell.itemWordLabel.textColor = [UIColor colorWithHex:self.defaultColor ? self.defaultColor : @"000000"];
+    self.buffCell.itemWordLabel.textColor = [UIColor sam_colorWithHex:self.defaultColor ? self.defaultColor : @"000000"];
     DependencyItemCC *cell = (DependencyItemCC *)[collectionView cellForItemAtIndexPath:indexPath];
     self.buffCell = cell;
     
-    self.buffCell.itemWordLabel.textColor = [UIColor colorWithHex:self.selectedColor ? self.selectedColor : @"000000"];
+    self.buffCell.itemWordLabel.textColor = [UIColor sam_colorWithHex:self.selectedColor ? self.selectedColor : @"000000"];
     //逻辑处理部分
     if (self.SelectedBlock) {
         self.SelectedBlock(indexPath.row);
     }
     //移动下方导航条
     [UIView animateWithDuration:animateTime animations:^{
-        self.lineView.frame = CGRectMake(indexPath.row * self.LabWidth, self.frame.size.height - lineHeight, self.LabWidth, lineHeight);
+        self.lineView.frame = CGRectMake(indexPath.row * self.LabWidth + (self.LabWidth - self.fixedWidthForBottomLine) / 2, self.frame.size.height - lineHeight, self.fixedWidthForBottomLine, lineHeight);
     } completion:^(BOOL finished) {
     }];
 }
@@ -94,13 +99,13 @@ static const CGFloat animateTime = 0.3;
 //被动切换高亮item
 - (void)seletedHighlightItem:(NSInteger)number {
     //首先清空之前选中的cell，然后高亮主题色
-    self.buffCell.itemWordLabel.textColor = [UIColor colorWithHex:self.defaultColor ? self.defaultColor : @"000000"];
+    self.buffCell.itemWordLabel.textColor = [UIColor sam_colorWithHex:self.defaultColor ? self.defaultColor : @"000000"];
     DependencyItemCC *cell = (DependencyItemCC *)[self.mainCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:number inSection:0]];
     self.buffCell = cell;
-    self.buffCell.itemWordLabel.textColor = [UIColor colorWithHex:self.selectedColor ? self.selectedColor : @"000000"];
+    self.buffCell.itemWordLabel.textColor = [UIColor sam_colorWithHex:self.selectedColor ? self.selectedColor : @"000000"];
     //移动下方导航条
     [UIView animateWithDuration:animateTime animations:^{
-        self.lineView.frame = CGRectMake(number * self.LabWidth, self.frame.size.height - lineHeight, self.LabWidth, lineHeight);
+        self.lineView.frame = CGRectMake(number * self.LabWidth + (self.LabWidth - self.fixedWidthForBottomLine) / 2, self.frame.size.height - lineHeight, self.fixedWidthForBottomLine, lineHeight);
     } completion:^(BOOL finished) {
     }];}
 
@@ -125,10 +130,12 @@ static const CGFloat animateTime = 0.3;
 
 - (UIView *)lineView {
     if (!_lineView) {
-        _lineView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height - lineHeight, self.LabWidth, lineHeight)];
+        _lineView = [[UIView alloc]initWithFrame:CGRectMake((self.LabWidth - self.fixedWidthForBottomLine) / 2, self.frame.size.height - lineHeight, self.fixedWidthForBottomLine, lineHeight)];
     }
     return _lineView;
 }
+
+
 
 @end
 

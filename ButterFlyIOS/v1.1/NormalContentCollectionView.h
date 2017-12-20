@@ -1,6 +1,6 @@
 /*
  Name: NormalContentCollectionView.h
- Version: 0.0.1
+ Version: 0.0.2
  Created by jacob on 2017/12/18
  简介：多屏展示的内容容器，容器使用的collectionView，每一屏宽度为屏幕宽度，高度位置自定义
  功能：{
@@ -19,6 +19,8 @@ typedef void(^SelectedItemBlock)(NSInteger selectedNum);
 //////////////////////////////////====属性设计====//////////////////////////////////
 /**容器是否可以左右滑动(只能依靠外界控制屏显) -- 默认支持**/
 @property (nonatomic, assign) BOOL enableLeftRightScroll;
+/**容器中包含的视图数组**/
+@property (nonatomic, strong) NSMutableArray *contentViewArray;
 
 //////////////////////////////////====方法调用====//////////////////////////////////
 /**主动输入当前选中的item**/
